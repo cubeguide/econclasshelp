@@ -23,10 +23,9 @@
     </head>
 
     <body>
-        <div class="cursor"></div>
         <h1>apps</h1>
         <input type="text" id="search" placeholder="⌕ search" autocomplete="off">
-        <p class="linkp"><a href="../index.html">homepage</a> •  <a href="https://github.com/a456pur/seraph" target="_blank">github</a> •  <a href="https://discord.gg/ZyZDmx3zuQ" target="_blank">discord</a></p>
+        <p class="linkp"><a href="../index.html">homepage</a> •  <a href="https://github.com/a456pur/seraph" target="_blank">github</a> •  <a href="https://discord.gg/ZyZDmx3zuQ" target="_blank">discord</a> •  <a id="openBlankLink">open blank</a></p>
 
         <div class="button-container">
             <a target="_blank" href="ruffle/index.html">
@@ -98,6 +97,20 @@
                 </div>
             </a> 
 
+            <a target="_blank" href="htmlcoder/index.html">
+                <div class="button" style="background-image: url('../images/thumbnails/htmleditor.png');">
+                    <h2>html coder</h2>
+                    <p>a fully functioning html code editor! upload from your device, or create static html pages from scratch </p>
+                </div>
+            </a> 
+
+            <a target="_blank" href="v86/index.html">
+                <div class="button" style="background-image: url('../images/thumbnails/v86.png');">
+                    <h2>v86</h2>
+                    <p>online emulation of x86-compatible cpu's and hardware - translated to webassembly for optimal performance </p>
+                </div>
+            </a> 
+
         </div>
 
         <p> // all apps hosted on this website are complete copyright & property of their respective owners \\</p>
@@ -122,8 +135,47 @@
             document.getElementById('search').addEventListener('input', filterGames);
         </script>
 
-        <script src="../storage/js/cursor.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var openBlankLink = document.getElementById('openBlankLink');
+            
+                openBlankLink.addEventListener('click', function(event) {
+                    event.preventDefault();
+            
+                    var newTab = window.open('about:blank', '_blank');
+            
+                    if (newTab) {
+                        var newTabBody = newTab.document.body;
+                        newTabBody.style.padding = '0';
+                        newTabBody.style.margin = '0';
+                        newTabBody.style.border = 'hidden';
+            
+                        var iframe = document.createElement('iframe');
+                        iframe.src = window.location.href;
+                        iframe.style.width = '100%';
+                        iframe.style.height = '100%';
+                        iframe.style.border = 'hidden';
+
+                        iframe.onload = function() {
+                            var links = iframe.contentDocument.querySelectorAll('a[target="_blank"]');
+                            links.forEach(function(link) {
+                                link.addEventListener('click', function(event) {
+                                    event.preventDefault();
+                                    iframe.contentWindow.location.href = link.href;
+                                });
+                            });
+                        };
+            
+                        newTab.document.body.appendChild(iframe);
+                    } else {
+                        alert("couldn't manage to open a new tab :(");
+                    }
+                });
+            });
+            </script>    
+
         <script src="../storage/js/cloak.js"></script>
         <script src="../storage/js/theme.js"></script>
+        <script src="../storage/js/cookie.js"></script>
     </body>
 </html>
